@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlueTwins · OceanoTech Innova — Gemelo Digital del Salmón</title>
+<meta name="description" content="AquaTwins es el gemelo digital de OceanoTech Innova: monitorea, predice y simula cada jaula de cultivo de salmón atlántico en Chile, en tiempo real.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!--
+  ============================================================
+  GUÍA RÁPIDA — cómo poner tus videos/imágenes de fondo
+  ============================================================
+  Cada sección de pantalla completa se llama "scene" y tiene
+  un bloque <video> vacío listo para recibir tu material.
+
+  Para VIDEO: busca el id de la escena (ej. id="monitoreo")
+  y dentro de su <video>, agrega una línea así:
+      <source src="TU-VIDEO.mp4" type="video/mp4">
+
+  Para IMAGEN en vez de video: borra el <video> completo de esa
+  escena y en su lugar, en la etiqueta <div class="scene__fallback">
+  agrega el estilo: style="background-image:url('TU-IMAGEN.jpg')"
+
+  Mientras no agregues nada, cada escena se ve con un degradado
+  oscuro de la marca (no se rompe el diseño).
+
+  Escenas disponibles, en orden:
+  #inicio · #monitoreo · #ambiente · #prediccion · #simulacion
+  #mision (sin fondo, es una pausa de texto) · #dashboard · #contacto
+  ============================================================
+-->
+
+<style>
+  :root{
+    --abyss:#03080c;
+    --abyss-2:#060f15;
+    --navy:#081b29;
+    --navy-2:#0d2333;
+    --line: rgba(143,201,201,0.16);
+    --line-strong: rgba(143,201,201,0.3);
+    --turq:#2fe1c9;
+    --turq-2:#16b8a6;
+    --turq-soft: rgba(47,225,201,0.12);
+    --foam:#eaf7f6;
+    --mist:#9fb6b8;
+    --white:#ffffff;
+    --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+    --ease: cubic-bezier(.16,.8,.24,1);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--abyss);
+    color:var(--foam);
+    font-family:var(--font-sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg,video{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; background:none; border:none; color:inherit; }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--turq);
+    outline-offset:4px;
+    border-radius:2px;
+  }
+
+  .wrap{ width:100%; max-width:1240px; margin:0 auto; padding:0 40px; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--turq);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--turq);
+    box-shadow:0 0 8px 2px var(--turq-soft);
+  }
+
+  /* thin, minimal button — outline only, fills on hover */
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:0.76rem;
+    letter-spacing:0.12em; text-transform:uppercase;
+    padding:14px 26px; border:1px solid var(--turq);
+    color:var(--foam);
+    transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+    white-space:nowrap;
+  }
+  .btn:hover{ background:var(--turq); color:var(--abyss); }
+  .btn--quiet{ border-color:var(--line-strong); color:var(--mist); }
+  .btn--quiet:hover{ background:transparent; border-color:var(--turq); color:var(--foam); }
+
+  .link-arrow{
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--foam);
+    display:inline-flex; align-items:center; gap:8px;
+    border-bottom:1px solid var(--line-strong);
+    padding-bottom:4px;
+    transition:border-color .3s var(--ease), color .3s var(--ease), gap .3s var(--ease);
+  }
+  .link-arrow:hover{ border-color:var(--turq); color:var(--turq); gap:12px; }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:26px 0;
+    background:transparent;
+    transition:background .4s var(--ease), padding .4s var(--ease), border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  .nav.is-scrolled{
+    background:rgba(3,8,12,0.82);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:16px 0;
+  }
+  .nav__row{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:0.98rem; color:var(--white); }
+  .brand__mark{ width:26px; height:20px; flex:none; }
+  .brand b{ color:var(--turq); font-weight:600; }
+
+  .nav__links{ display:flex; align-items:center; gap:34px; }
+  .nav__links a{
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--mist); transition:color .25s var(--ease);
+  }
+  .nav__links a:hover{ color:var(--foam); }
+
+  .nav__actions{ display:flex; align-items:center; gap:16px; }
+
+  .menu-btn{
+    display:none; width:32px; height:32px; border:1px solid var(--line-strong); position:relative;
+  }
+  .menu-btn span{ position:absolute; left:8px; right:8px; height:1px; background:var(--foam); transition:transform .3s var(--ease), opacity .3s var(--ease); }
+  .menu-btn span:nth-child(1){ top:11px; }
+  .menu-btn span:nth-child(2){ top:16px; }
+  .menu-btn span:nth-child(3){ top:21px; }
+  .menu-btn.is-open span:nth-child(1){ transform:translateY(5px) rotate(45deg); }
+  .menu-btn.is-open span:nth-child(2){ opacity:0; }
+  .menu-btn.is-open span:nth-child(3){ transform:translateY(-5px) rotate(-45deg); }
+
+  .mobile-panel{
+    position:fixed; inset:0; background:var(--abyss); z-index:90;
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:26px; padding:40px;
+    transform:translateY(-100%); transition:transform .45s var(--ease);
+  }
+  .mobile-panel.is-open{ transform:translateY(0); }
+  .mobile-panel a{ font-size:1.9rem; font-weight:500; color:var(--foam); }
+  .mobile-panel a:hover{ color:var(--turq); }
+
+  /* ---------- Scroll dot rail ---------- */
+  .rail{
+    position:fixed; right:28px; top:50%; transform:translateY(-50%); z-index:80;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .rail__dot{ width:8px; height:8px; border-radius:50%; border:1px solid var(--line-strong); transition:all .3s var(--ease); }
+  .rail__dot.is-active{ background:var(--turq); border-color:var(--turq); transform:scale(1.3); box-shadow:0 0 10px 2px var(--turq-soft); }
+  @media (max-width:900px){ .rail{ display:none; } }
+
+  /* ---------- Scene (fullscreen cinematic section) ---------- */
+  .scene{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .scene--center{ align-items:center; }
+  .scene__media{ position:absolute; inset:0; }
+  .scene__fallback{ position:absolute; inset:0; background-size:cover; background-position:center; }
+  .scene__video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .scene__scrim{
+    position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(0deg, rgba(3,8,12,0.92) 0%, rgba(3,8,12,0.35) 45%, rgba(3,8,12,0.22) 100%);
+  }
+  .scene--center .scene__scrim{
+    background:linear-gradient(0deg, rgba(3,8,12,0.75) 0%, rgba(3,8,12,0.35) 55%, rgba(3,8,12,0.55) 100%);
+  }
+  .scene__content{ position:relative; z-index:2; width:100%; padding:0 0 min(11vh,110px); }
+  .scene--center .scene__content{ padding:0; text-align:center; }
+
+  .scene__content h1, .scene__content h2{
+    font-weight:600; color:var(--white); letter-spacing:-0.01em; margin-top:18px;
+  }
+  .scene__content h1{ font-size:clamp(2.6rem, 6.6vw, 5.4rem); max-width:16ch; line-height:1.03; }
+  .scene__content h2{ font-size:clamp(2.1rem, 5vw, 4rem); max-width:14ch; line-height:1.05; }
+  .scene--center .scene__content h1,
+  .scene--center .scene__content h2{ margin-left:auto; margin-right:auto; }
+
+  .scene__desc{
+    margin-top:22px; max-width:44ch; color:var(--mist); font-weight:300;
+    font-size:clamp(1rem, 1.5vw, 1.15rem);
+  }
+  .scene--center .scene__desc{ margin-left:auto; margin-right:auto; }
+
+  .scene__cta{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
+  .scene--center .scene__cta{ justify-content:center; }
+
+  /* per-scene fallback tones (visible until real media is added) */
+  .scene--1 .scene__fallback{ background:radial-gradient(80% 60% at 70% 20%, rgba(47,225,201,0.10), transparent 60%), linear-gradient(160deg, var(--navy-2), var(--abyss) 70%); }
+  .scene--2 .scene__fallback{ background:linear-gradient(200deg, var(--navy), var(--abyss-2) 65%); }
+  .scene--3 .scene__fallback{ background:linear-gradient(160deg, var(--abyss-2), var(--navy) 70%); }
+  .scene--4 .scene__fallback{ background:radial-gradient(70% 60% at 80% 10%, rgba(47,225,201,0.08), transparent 55%), var(--abyss-2); }
+  .scene--5 .scene__fallback{ background:linear-gradient(210deg, var(--navy-2), var(--abyss) 60%); }
+  .scene--6 .scene__fallback{ background:linear-gradient(180deg, var(--abyss-2), var(--abyss) 100%); }
+  .scene--7 .scene__fallback{ background:linear-gradient(200deg, var(--navy), var(--abyss-2) 70%); }
+
+  /* reveal-on-scroll for scene text */
+  .scene__content > *{ opacity:0; transform:translateY(22px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+  .scene.is-visible .scene__content > *{ opacity:1; transform:translateY(0); }
+  .scene__content > *:nth-child(1){ transition-delay:.05s; }
+  .scene__content > *:nth-child(2){ transition-delay:.15s; }
+  .scene__content > *:nth-child(3){ transition-delay:.25s; }
+  .scene__content > *:nth-child(4){ transition-delay:.35s; }
+
+  /* scroll cue on hero */
+  .scroll-cue{
+    position:absolute; left:50%; bottom:38px; transform:translateX(-50%); z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .scroll-cue span{ font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--mist); }
+  .scroll-cue i{ width:1px; height:34px; background:linear-gradient(180deg, var(--turq), transparent); animation:cueMove 2.2s var(--ease) infinite; }
+  @keyframes cueMove{ 0%{ opacity:0; transform:scaleY(0.3); transform-origin:top; } 40%{ opacity:1; transform:scaleY(1); } 100%{ opacity:0; transform:scaleY(1); } }
+
+  /* extra vignette on the hero so the flanking captions stay legible over video */
+  .scene__scrim--hero{
+    background:
+      radial-gradient(60% 60% at 50% 45%, rgba(3,8,12,0.05), rgba(3,8,12,0.55) 100%),
+      linear-gradient(0deg, rgba(3,8,12,0.9) 0%, rgba(3,8,12,0.3) 45%, rgba(3,8,12,0.4) 100%);
+  }
+
+  /* hero flanking captions — one at the left edge, one at the right, beside the title */
+  .hero-flank{
+    position:absolute; top:50%; z-index:2;
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--mist); white-space:nowrap;
+    writing-mode:vertical-rl;
+  }
+  .hero-flank--left{ left:28px; transform:translateY(-50%) rotate(180deg); }
+  .hero-flank--right{ right:28px; transform:translateY(-50%); color:var(--turq); }
+  @media (max-width:900px){ .hero-flank{ display:none; } }
+
+  /* alternating left/right placement for the content scenes */
+  .align-right .scene__content{ text-align:right; }
+  .align-right .scene__content > *{ margin-left:auto; margin-right:0; }
+  .align-right .eyebrow{ justify-content:flex-end; }
+  .align-right .scene__cta{ justify-content:flex-end; }
+  @media (max-width:700px){
+    .align-right .scene__content{ text-align:left; }
+    .align-right .scene__content > *{ margin-left:0; margin-right:0; }
+    .align-right .eyebrow, .align-right .scene__cta{ justify-content:flex-start; }
+  }
+
+  /* ---------- Mission / quote (no media) ---------- */
+  .mission{
+    background:var(--abyss);
+    padding:min(20vh,190px) 0;
+    text-align:center;
+  }
+  .mission blockquote{
+    font-weight:300; font-size:clamp(1.6rem, 3.6vw, 2.8rem); line-height:1.35;
+    color:var(--foam); max-width:26ch; margin:0 auto;
+  }
+  .mission blockquote strong{ color:var(--turq); font-weight:500; }
+  .mission cite{ display:block; margin-top:30px; font-family:var(--font-mono); font-size:0.78rem; color:var(--mist); font-style:normal; }
+
+  /* ---------- Dashboard scene extra: framed preview ---------- */
+  .frame{
+    margin-top:38px; max-width:640px;
+    border:1px solid var(--line-strong);
+    background:rgba(3,8,12,0.55);
+    backdrop-filter:blur(6px);
+    padding:6px;
+  }
+  .frame__inner{
+    aspect-ratio:16/9;
+    background:
+      repeating-linear-gradient(90deg, rgba(234,247,246,0.035) 0 1px, transparent 1px 70px),
+      repeating-linear-gradient(0deg, rgba(234,247,246,0.035) 0 1px, transparent 1px 44px),
+      linear-gradient(150deg, var(--navy) 0%, var(--abyss) 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .frame__inner span{
+    font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--mist); border:1px dashed var(--line-strong); padding:9px 14px;
+  }
+.frame__inner--preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #06151b;
+  border-radius: inherit;
+
+  box-shadow:
+    inset 0 0 40px rgba(0, 180, 255, 0.05);
+}
+
+.browser-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 12px;
+
+  z-index: 20;
+
+  background: rgba(4, 14, 20, 0.96);
+
+  border-bottom: 1px solid rgba(100, 220, 255, 0.12);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.browser-dots span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: rgba(180, 220, 230, 0.35);
+}
+
+.browser-url {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-left: 12px;
+
+  padding: 5px 10px;
+
+  font-size: 9px;
+
+  color: rgba(210, 240, 245, 0.7);
+
+  background: rgba(255, 255, 255, 0.05);
+
+  border-radius: 5px;
+}
+
+.browser-lock {
+  font-size: 6px;
+  color: #42f5b0;
+}
+
+.browser-status {
+  margin-left: auto;
+
+  font-size: 8px;
+  letter-spacing: 1px;
+
+  color: #42f5b0;
+}
+
+.website-preview {
+  position: absolute;
+
+  top: 34px;
+  left: 0;
+
+  width: 100%;
+  height: calc(100% - 34px);
+
+  overflow: hidden;
+}
+
+.website-preview iframe {
+  width: 400%;
+  height: 400%;
+
+  border: none;
+
+  transform: scale(0.25);
+  transform-origin: top left;
+
+  pointer-events: none;
+}
+
+.screen-glow {
+  position: absolute;
+
+  inset: 34px 0 0 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(0, 200, 255, 0.04),
+      transparent 35%,
+      transparent 70%,
+      rgba(0, 255, 170, 0.03)
+    );
+
+  z-index: 15;
+}
+  /* ---------- Footer ---------- */
+  footer{ background:var(--abyss); padding:44px 0; border-top:1px solid var(--line); }
+  .footer__inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px; }
+  .footer__links{ display:flex; gap:26px; flex-wrap:wrap; }
+  .footer__links a{ font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--mist); transition:color .25s var(--ease); }
+  .footer__links a:hover{ color:var(--turq); }
+  .footer__meta{ font-family:var(--font-mono); font-size:0.68rem; color:var(--mist); opacity:0.7; }
+
+  @media (max-width:900px){
+    .nav__links{ display:none; }
+    .menu-btn{ display:block; }
+  }
+  @media (max-width:560px){
+    .wrap{ padding:0 22px; }
+    .scene__content{ padding-bottom:64px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .scene__content > *{ opacity:1; transform:none; transition:none; }
+    .scroll-cue i{ animation:none; opacity:.6; }
+    .scene__video{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="wrap nav__row">
+      <a href="#inicio" class="brand" aria-label="AquaTwins, inicio">
+        <svg class="brand__mark" viewBox="0 0 40 24" aria-hidden="true">
+          <circle cx="14" cy="12" r="10" fill="none" stroke="#2fe1c9" stroke-width="1.4"/>
+          <circle cx="26" cy="12" r="10" fill="none" stroke="#eaf7f6" stroke-width="1.4" opacity="0.5"/>
+        </svg>
+        <span>Blue<b>Twins</b></span>
+      </a>
+
+      <div class="nav__links">
+  <a href="#monitoreo">Problema</a>
+  <a href="#contexto">Contexto</a>
+  <a href="#solucion">Solución</a>
+  <a href="#prototipo">Prototipo</a>
+  <a href="#impacto">Impacto</a>
+  <a href="#tecnologia">Tecnología</a>
+</div>
+
+     <div class="nav__actions">
+        <a href="https://oceanotech.site/"btn">Pagina oficial</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-panel" id="mobilePanel">
+  <a href="#solucion">Solución</a>
+  <a href="#prototipo">Prototipo</a>
+  <a href="#tecnologia">Tecnología</a>
+</div>
+
+  <div class="rail" id="rail" aria-hidden="true">
+    <span class="rail__dot" data-target="inicio"></span>
+    <span class="rail__dot" data-target="monitoreo"></span>
+    <span class="rail__dot" data-target="ambiente"></span>
+    <span class="rail__dot" data-target="prediccion"></span>
+    <span class="rail__dot" data-target="simulacion"></span>
+    <span class="rail__dot" data-target="mision"></span>
+    <span class="rail__dot" data-target="dashboard"></span>
+    <span class="rail__dot" data-target="contacto"></span>
+  </div>
+
+  <main>
+
+    <!-- ESCENA 1 — HERO -->
+    <section class="scene scene--1 scene--center" id="inicio" data-scene>
+      <div class="scene__media">
+        <div class="scene__fallback"></div>
+        <video class="scene__video" autoplay muted loop playsinline preload="none">
+          <source src="https://videos.pexels.com/video-files/33888830/14382171_1920_1080_60fps.mp4" type="video/mp4">
+          <!-- Video: "Serene Sea Turtle Swimming Underwater" por JUN HO LEE, vía Pexels -->
+        </video>
+      </div>
+      <div class="scene__scrim scene__scrim--hero"></div>
+
+      <span class="hero-flank hero-flank--left" aria-hidden="true">42°28'S — Los Lagos, Chile</span>
+      <span class="hero-flank hero-flank--right" aria-hidden="true">Salmo salar · gemelo digital</span>
+
+      <div class="wrap scene__content">
+        <p class="eyebrow" style="justify-content:center;">BlueTwins · OceanoTech Innova</p>
+        <h1>Gemelo Digital</h1>
+        <p class="scene__desc">El gemelo digital del salmón chileno, en tiempo real.</p>
+      </div>
+      <div class="scroll-cue"><span>Descubre más</span><i></i></div>
+    </section>
+
+    <!-- ESCENA 2 — MONITOREO -->
+    <section class="scene scene--2 align-right" id="monitoreo" data-scene>
+
+  <div class="scene__media">
+    <div class="scene__fallback"></div>
+
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <source src="https://www.pexels.com/download/video/29292616/">
+    </video>
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+
+    <p class="eyebrow">Problema</p>
+
+    <h2>Los datos existen. La anticipación no.</h2>
+
+    <p class="scene__desc">
+      La falta de análisis avanzado dificulta anticipar hipoxia y FAN, eventos que han provocado pérdidas de 4.994 toneladas de salmón en Aysén.
+    </p>
+
+    <div class="scene__cta">
+      <a href="routing/problema.html" class="btn">
+        Conocer el problema
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+    <!-- ESCENA 3 — Contexto -->
+    <section class="scene scene--3 align-left" id="contexto" data-scene>
+
+  <div class="scene__media">
+
+    <div class="scene__fallback"></div>
+
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <source src="assets/imagenes/fondos/grok-video-633d34b5-2476-45ba-a3a8-466cdfc5cbd0 (1).mp4">
+    </video>
+
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+
+    <p class="eyebrow">Contexto</p>
+
+    <h2>Un entorno complejo y dinámico.</h2>
+
+    <p class="scene__desc">
+      La salmonicultura chilena opera en los fiordos del sur, donde temperatura, oxígeno, corrientes y otras variables cambian constantemente.</p>
+
+    <div class="scene__cta">
+      <a href="routing/Contexto.html" class="btn">
+        Conocer el contexto
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+   <!-- ESCENA 4 — PREDICCIÓN -->
+<!-- ESCENA 4 — SOLUCIÓN -->
+
+<section class="scene scene--4 align-right" id="solucion" data-scene>
+
+  <div class="scene__media">
+
+    <div class="scene__fallback"></div>
+
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <source src="assets/imagenes/fondos/14519720_3840_2160_25fps.mp4">
+    </video>
+
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+
+    <p class="eyebrow">Solución</p>
+
+    <h2>BlueTwins: Simulación Predictiva.</h2>
+
+    <p class="scene__desc">
+     Un Gemelo Digital que representa dinámicamente cada jaula de cultivo e integra datos ambientales, sensores y modelos predictivos para anticipar escenarios de riesgo.</p>
+
+    <div class="scene__cta">
+      <a href="routing/Solución.html" class="btn">
+        Explorar Solución
+      </a>
+    </div>
+
+  </div>
+
+</section>
+  <!-- resto del contenido de la escena -->
+  </div>
+
+</section>
+
+    <!-- ESCENA 5 — PROTOTIPO -->
+<section class="scene scene--5 align-left" id="prototipo" data-scene>
+  <div class="scene__media">
+    <div class="scene__fallback"></div>
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <source src="31">
+      <!-- TODO: <source src="TU-VIDEO-PROTOTIPO.mp4" type="video/mp4"> -->
+    </video>
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+    <p class="eyebrow">04 · Prototipo</p>
+    <h2>Del dato a la simulación..</h2>
+    <p class="scene__desc">
+     Contamos con un prototipo funcional de visualización y modelamiento de datos, actualmente en validación y evolución.</p>
+  <div class="scene__cta">
+      <a href="routing/Prototipo.html" class="btn">
+        Explorar prototipo
+      </a>
+    </div>
+</section>
+
+    <!-- ESCENA 6 — IMPACTO -->
+<section class="scene scene--6 align-right" id="impacto" data-scene>
+  <div class="scene__media">
+    <div class="scene__fallback"></div>
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <!-- TODO: <source src="TU-VIDEO-IMPACTO.mp4" type="video/mp4"> -->
+    </video>
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+    <p class="eyebrow">05 · Impacto</p>
+
+    <h2>
+      Menos incertidumbre. Mejores decisiones..
+    </h2>
+
+    <p class="scene__desc">
+     Buscamos reducir riesgos operacionales, optimizar recursos productivos y anticipar eventos que pueden afectar la biomasa y el entorno. </p>
+
+    <div class="scene__cta">
+      <a
+        href="routing/Impacto.html"
+        target="_blank"
+        rel="noopener"
+        class="btn"
+      >
+        Ver impacto
+      </a>
+    </div>
+  </div>
+</section>
+
+    <!-- ESCENA 7 — TECNOLOGÍA -->
+<section class="scene scene--7 align-left" id="tecnologia" data-scene>
+  <div class="scene__media">
+    <div class="scene__fallback"></div>
+
+    <video class="scene__video" autoplay muted loop playsinline preload="none">
+      <source src="https://www.pexels.com/video/the-aerial-view-of-a-harbor-and-town-19656518/">
+      <!-- TODO: <source src="TU-VIDEO-TECNOLOGIA.mp4" type="video/mp4"> -->
+    </video>
+  </div>
+
+  <div class="scene__scrim"></div>
+
+  <div class="wrap scene__content">
+
+    <p class="eyebrow">06 · Tecnología</p>
+
+    <h2>Cada Jaula, en Tiempo Real.</h2>
+
+    <p class="scene__desc">
+      Integramos datos operativos y ambientales con sensores IoT, procesamiento en tiempo real y fuentes oceanográficas públicas como CHONOS de IFOP. </p>
+
+    <div class="frame">
+
+      <div class="frame__inner frame__inner--preview">
+
+        <div class="browser-bar">
+
+          <div class="browser-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="browser-url">
+            <span class="browser-lock">●</span>
+            tt.oceanotech.site
+          </div>
+
+          <div class="browser-status">
+            LIVE
+          </div>
+
+        </div>
+
+        <div class="website-preview">
+          <iframe
+            src="https://tt.oceanotech.site/"
+            title="OceanoTech Digital Twin"
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <div class="screen-glow"></div>
+
+      </div>
+
+    </div>
+
+  
+
+  </div>
+</section>
+
+    <!-- ESCENA 8 — CONTACTO -->
+    <section class="scene scene--1 scene--center" id="contacto" data-scene>
+      <div class="scene__media">
+        <div class="scene__fallback"></div>
+        <video class="scene__video" autoplay muted loop playsinline preload="none">
+          <!-- TODO: <source src="TU-VIDEO-CONTACTO.mp4" type="video/mp4"> -->
+        </video>
+      </div>
+      <div class="scene__scrim"></div>
+      <div class="wrap scene__content">
+        <p class="eyebrow" style="justify-content:center;">Hablemos</p>
+        <h2>Lleva tu centro de cultivo a su gemelo digital.</h2>
+        <p class="scene__desc">Agenda una demo con el equipo de OceanoTech Innova.</p>
+        <div class="scene__cta">
+          <!-- TODO: reemplaza por tu correo de contacto real -->
+          <a href="mailto:contacto@oceanotech.site" class="btn">Agendar una demo</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap footer__inner">
+      <div class="brand" style="font-size:0.88rem;">
+        <svg class="brand__mark" viewBox="0 0 40 24" aria-hidden="true">
+          <circle cx="14" cy="12" r="10" fill="none" stroke="#2fe1c9" stroke-width="1.4"/>
+          <circle cx="26" cy="12" r="10" fill="none" stroke="#eaf7f6" stroke-width="1.4" opacity="0.5"/>
+        </svg>
+        <span>Océano<b>Tech</b> Innova</span>
+      </div>
+      <div class="footer__links">
+        <a href="#monitoreo">Producto</a>
+        <a href="#prediccion">Tecnología</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer__meta">© <span id="year"></span> OceanoTech Innova — Gemelo Digital Salmo salar</div>
+    </div>
+  </footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('is-scrolled', window.scrollY > 40); };
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  const menuBtn = document.getElementById('menuBtn');
+  const mobilePanel = document.getElementById('mobilePanel');
+  menuBtn.addEventListener('click', () => {
+    const open = mobilePanel.classList.toggle('is-open');
+    menuBtn.classList.toggle('is-open', open);
+    menuBtn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobilePanel.classList.remove('is-open');
+    menuBtn.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }));
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scenes = document.querySelectorAll('[data-scene]');
+  const dots = document.querySelectorAll('.rail__dot');
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        e.target.classList.toggle('is-visible', e.isIntersecting);
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          dots.forEach(d => d.classList.toggle('is-active', d.dataset.target === id));
+        }
+      });
+    }, { threshold: 0.45 });
+    scenes.forEach(s => io.observe(s));
+  } else {
+    scenes.forEach(s => s.classList.add('is-visible'));
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById(dot.dataset.target);
+      if (target) target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

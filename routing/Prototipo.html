@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaTwins · OceanoTech — Índice de información</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf8;
+    --ink:#15181a;
+    --ink-soft:#5b6469;
+    --line:rgba(21,24,26,0.14);
+    --line-soft:rgba(21,24,26,0.08);
+    --accent:#2fb8a6;
+    --banner-bg:#11161a;
+    --banner-ink:#f4f2ee;
+    --banner-soft:#9aa5a8;
+    --content-max:680px;
+    --page-max:1120px;
+  }
+  html[data-theme="dark"]{
+    --bg:#101314;
+    --ink:#eceeee;
+    --ink-soft:#93a0a3;
+    --line:rgba(236,238,238,0.16);
+    --line-soft:rgba(236,238,238,0.08);
+    --accent:#4fd8c4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition:background .3s ease, color .3s ease;
+  }
+  a{color:inherit;}
+  .mono{
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.04em;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .wrap{max-width:var(--page-max);margin:0 auto;padding:0 32px;}
+  .accent{color:var(--accent);}
+
+  /* ===== NAV ===== */
+  header{padding:24px 0;border-bottom:1px solid var(--line-soft);}
+  nav.wrap{display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-size:16px;display:flex;align-items:baseline;gap:2px;}
+  .logo b{font-weight:600;}
+  #themeToggle{
+    background:none;border:1px solid var(--line);border-radius:999px;
+    cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:0.04em;color:var(--ink-soft);padding:7px 14px;
+  }
+  #themeToggle:hover{color:var(--ink);border-color:var(--ink-soft);}
+
+  /* ===== BANNER ===== */
+  .banner{
+    background:var(--banner-bg);color:var(--banner-ink);
+    border-bottom:3px solid var(--accent);
+  }
+  .banner-inner{padding:72px 32px 44px;max-width:var(--page-max);margin:0 auto;}
+  .banner .mono{color:var(--accent);margin-bottom:20px;display:block;}
+  .banner h1{
+    font-size:clamp(28px,4vw,42px);line-height:1.28;font-weight:500;
+    max-width:780px;letter-spacing:-0.01em;
+  }
+  .banner p{
+    margin-top:20px;max-width:620px;font-size:15.5px;line-height:1.65;
+    color:var(--banner-soft);
+  }
+  .banner-meta{
+    display:flex;flex-wrap:wrap;gap:28px;margin-top:36px;
+    padding-top:24px;border-top:1px solid rgba(244,242,238,0.14);
+  }
+  .banner-meta div{display:flex;flex-direction:column;gap:5px;}
+  .banner-meta span.k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.04em;color:var(--banner-soft);}
+  .banner-meta span.v{font-size:14px;color:var(--banner-ink);}
+
+  /* ===== LAYOUT ===== */
+  main{padding:56px 0 100px;}
+  .layout{display:grid;grid-template-columns:220px 1fr;gap:64px;align-items:start;}
+
+  /* index / toc */
+  .toc{position:sticky;top:32px;}
+  .toc .mono{display:block;margin-bottom:16px;}
+  .toc ol{list-style:none;display:flex;flex-direction:column;gap:2px;}
+  .toc a{
+    display:flex;gap:10px;padding:9px 0;font-size:13.5px;color:var(--ink-soft);
+    border-left:2px solid transparent;padding-left:12px;margin-left:-13px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .toc a .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);}
+  .toc a:hover{color:var(--ink);}
+  .toc a.active{color:var(--ink);border-left-color:var(--accent);}
+  .toc a.active .n{color:var(--accent);}
+
+  /* items */
+  .items{max-width:var(--content-max);}
+  .item{padding:40px 0;border-bottom:1px solid var(--line);scroll-margin-top:28px;}
+  .item:first-child{padding-top:0;}
+  .item .mono{display:block;margin-bottom:12px;}
+  .item h2{font-size:22px;font-weight:500;letter-spacing:-0.01em;margin-bottom:14px;}
+  .item p{font-size:15px;line-height:1.75;color:var(--ink-soft);max-width:62ch;}
+  .item p + p{margin-top:12px;}
+  .item p em{
+    color:var(--ink);font-style:normal;
+    background:linear-gradient(transparent 60%, var(--line-soft) 60%);
+  }
+
+  .note{
+    max-width:var(--content-max);margin-top:36px;padding:18px 20px;
+    border:1px solid var(--line);font-size:13px;color:var(--ink-soft);line-height:1.6;
+  }
+  .note b{color:var(--ink);}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  footer span{font-size:12.5px;color:var(--ink-soft);}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;gap:20px;}
+    .toc{position:static;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:8px;}
+    .toc ol{flex-direction:row;flex-wrap:wrap;gap:8px;}
+    .toc a{border-left:none;padding:6px 12px;margin-left:0;border:1px solid var(--line);border-radius:999px;}
+    .toc a.active{border-color:var(--accent);}
+    .banner-inner{padding:52px 20px 32px;}
+  }
+
+  @media print{
+    header,.toc,#themeToggle{display:none;}
+    .banner{border-bottom:1px solid #000;}
+    .layout{grid-template-columns:1fr;}
+    body{background:#fff;color:#000;}
+    .item{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <span class="logo"><span>Oceano</span><b>Tech</b></span>
+    <button id="themeToggle">Modo noche</button>
+  </nav>
+</header>
+
+
+<section class="banner">
+  <div class="banner-inner">
+    <span class="mono">Evidencia</span>
+    <h1>Prrototipo funcional</p>
+    <div class="banner-meta">
+      <div><span class="k">Proyecto</span><span class="v">BlueTwins de OceanoTech Innova</span></div>
+      <div><span class="k">Origen</span><span class="v">Universidad</span></div>
+      <div><span class="k">Emprendimiento</span><span class="v">OceanoTech Innova</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  
+
+    <div class="items">
+
+      
+
+      <article class="item" id="problema">
+        <span class="mono"> </span>
+        <h2>¿Como funciona?</h2>
+        <p>El funcionamiento de nuestra plataforma está estructurado bajo un principio de integración simple, ágil y no invasiva:
+Conexión directa a los sensores del cliente: El software se conecta fácilmente a la red de sensores oceanográficos que la salmonera ya tiene instalada y operativa en sus jaulas (oxígeno disuelto, temperatura y corrientes), eliminando la necesidad de costosas modificaciones estructurales
+.
+Conversión en datos funcionales para la predicción: Los datos brutos transmitidos por los sensores son asimilados en tiempo real por el software
+. En lugar de acumularse en silos aislados o registros históricos pasivos, estos datos se convierten instantáneamente en parámetros de entrada para ecuaciones hidrodinámicas de transporte de oxígeno y modelos bioenergéticos de crecimiento de la población de peces
+.
+Simulaciones en tiempo real para decidir antes de actuar: Con esta información calibrada continuamente, BlueTwins simula escenarios virtuales ("what-if") para proyectar de qué manera variarán las condiciones locales en las próximas horas
+. Esto permite a los operarios saber con precisión cómo ejecutar las maniobras operativas críticas en el mar (como regular o suspender la alimentación, programar ayunos, o activar sistemas de oxigenación de manera preventiva) basándose en proyecciones matemáticas rigurosas y no en suposiciones
+.
+Nuestra Filosofía: Una Solución Predictiva, No un Software de Escritorio
+En OceanoTech Innova tenemos una visión comercial clara: no pretendemos vender una licencia de software estática, sino brindar una solución predictiva integrada que reduzca activamente la incertidumbre operacional en el mar
+.
+Los visualizadores tradicionales saturan al operario con gráficos históricos de lo que ya ocurrió
+. En cambio, nuestra propuesta de valor radica en entregar un servicio de soporte predictivo y prescriptivo automatizado
+, diseñado específicamente para evitar mortalidades masivas, optimizar el uso del alimento y robustecer la viabilidad económica y ambiental de la acuicultura en la Patagonia chilena.<p>[Espacio para agregar la cifra, caso o antecedente concreto que respalde este punto en la postulación.]</p>
+      </article>
+
+       </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Oceano</b>Tech — BlueTwins, Gemelo Digital para salmonicultura</span>
+    <span class="mono">© 2026</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  toggle.addEventListener('click', () => {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    toggle.textContent = isDark ? 'Modo noche' : 'Modo día';
+  });
+
+  const links = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('.item');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+      if (!link) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  sections.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
