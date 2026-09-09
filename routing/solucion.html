@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AquaTwins · OceanoTech — Índice de información</title>
+<title>BlueTwins · OceanoTech — Solución</title>
+<link rel="icon" type="image/png" href="assets/imagenes/favicon.png/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -106,11 +107,17 @@
   .item:first-child{padding-top:0;}
   .item .mono{display:block;margin-bottom:12px;}
   .item h2{font-size:22px;font-weight:500;letter-spacing:-0.01em;margin-bottom:14px;}
+  .item h3{font-size:15.5px;font-weight:600;letter-spacing:-0.005em;color:var(--ink);margin-top:22px;margin-bottom:6px;}
   .item p{font-size:15px;line-height:1.75;color:var(--ink-soft);max-width:62ch;}
   .item p + p{margin-top:12px;}
   .item p em{
     color:var(--ink);font-style:normal;
     background:linear-gradient(transparent 60%, var(--line-soft) 60%);
+  }
+  .item p.callout{
+    font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;
+    line-height:1.5;padding-left:16px;border-left:2px solid var(--accent);
+    margin-top:24px;
   }
 
   .note{
@@ -150,11 +157,11 @@
   </nav>
 </header>
 
-
 <section class="banner">
   <div class="banner-inner">
-    <span class="mono">Evidencia</span>
-    <h1>Por que funciona nuestra solución?</p>
+    <span class="mono">BlueTwins · 03</span>
+    <h1>De los datos a la anticipación.</h1>
+    <p>Cómo OceanoTech Innova transforma esos datos en decisiones anticipadas.</p>
     <div class="banner-meta">
       <div><span class="k">Proyecto</span><span class="v">BlueTwins de OceanoTech Innova</span></div>
       <div><span class="k">Origen</span><span class="v">Universidad</span></div>
@@ -164,30 +171,24 @@
 </section>
 
 <main class="wrap">
-  
+  <div class="items">
 
-    <div class="items">
+    <article class="item" id="solucion">
+      <span class="mono">&nbsp;</span>
+      <h2>Solución</h2>
+      <p>OceanoTech Innova desarrolla un <em>Gemelo Digital aplicado a la salmonicultura</em>, capaz de representar virtualmente el comportamiento de un centro de cultivo a partir de sus principales variables ambientales y productivas.</p>
+      <p>La solución integra información como oxígeno y temperatura con modelos que representan procesos asociados al crecimiento y estado de la biomasa. Esta información permite construir una representación dinámica del centro y explorar cómo podría responder ante diferentes condiciones.</p>
+      <p>Su principal aporte es incorporar una capa de <em>simulación de escenarios</em>. En lugar de limitarse a observar lo ocurrido, el usuario puede plantear situaciones hipotéticas y analizar sus posibles efectos antes de intervenir el sistema real.</p>
+      <p>Así, la tecnología busca transformar información dispersa en una herramienta de apoyo para la toma de decisiones, permitiendo a los equipos identificar riesgos, evaluar alternativas de manejo y responder con mayor anticipación.</p>
+      <p class="callout">La idea central es simple: pasar de observar lo que ocurre a explorar lo que podría ocurrir.</p>
+    </article>
 
-      
-
-      <article class="item" id="problema">
-        <span class="mono"> </span>
-        <h2>El problema</h2>
-        <p>La operación salmonicultora genera grandes volúmenes de información sobre temperatura, oxígeno, biomasa, corrientes y comportamiento de los peces. Sin embargo, estos datos suelen analizarse de forma fragmentada, dificultando identificar relaciones entre las condiciones del entorno y cambios críticos en la producción.
-
-Esta desconexión reduce la capacidad de anticipar eventos como hipoxia, floraciones algales nocivas (FAN), estrés y mortalidad, haciendo que algunas decisiones operativas se tomen cuando el impacto ya comenzó.
-
-En Aysén, eventos asociados a estas condiciones han provocado pérdidas oficiales de 4.994 toneladas de salmón, evidenciando el costo productivo de reaccionar frente al evento en lugar de anticiparlo.</p>
-        <p>[Espacio para agregar la cifra, caso o antecedente concreto que respalde este punto en la postulación.]</p>
-      </article>
-
-       </div>
   </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <span><b>Oceano</b>Tech — AquaTwins, Gemelo Digital para salmonicultura</span>
+    <span><b>Oceano</b>Tech — BlueTwins, Gemelo Digital para salmonicultura</span>
     <span class="mono">© 2026</span>
   </div>
 </footer>
@@ -200,20 +201,6 @@ En Aysén, eventos asociados a estas condiciones han provocado pérdidas oficial
     root.setAttribute('data-theme', isDark ? 'light' : 'dark');
     toggle.textContent = isDark ? 'Modo noche' : 'Modo día';
   });
-
-  const links = document.querySelectorAll('.toc a');
-  const sections = document.querySelectorAll('.item');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
-      if (!link) return;
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-15% 0px -70% 0px' });
-  sections.forEach(s => io.observe(s));
 </script>
 
 </body>

@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AquaTwins · OceanoTech — Índice de información</title>
+<title>BlueTwins · OceanoTech — Prototipo</title>
+<link rel="icon" type="image/png" href="assets/imagenes/favicon.png/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -106,11 +107,17 @@
   .item:first-child{padding-top:0;}
   .item .mono{display:block;margin-bottom:12px;}
   .item h2{font-size:22px;font-weight:500;letter-spacing:-0.01em;margin-bottom:14px;}
+  .item h3{font-size:15.5px;font-weight:600;letter-spacing:-0.005em;color:var(--ink);margin-top:22px;margin-bottom:6px;}
   .item p{font-size:15px;line-height:1.75;color:var(--ink-soft);max-width:62ch;}
   .item p + p{margin-top:12px;}
   .item p em{
     color:var(--ink);font-style:normal;
     background:linear-gradient(transparent 60%, var(--line-soft) 60%);
+  }
+  .item p.callout{
+    font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;
+    line-height:1.5;padding-left:16px;border-left:2px solid var(--accent);
+    margin-top:24px;
   }
 
   .note{
@@ -150,11 +157,11 @@
   </nav>
 </header>
 
-
 <section class="banner">
   <div class="banner-inner">
-    <span class="mono">Evidencia</span>
-    <h1>Prrototipo funcional</p>
+    <span class="mono">BlueTwins · 04</span>
+    <h1>Del concepto a un sistema funcional.</h1>
+    <p>Del concepto a un sistema que ya se puede probar.</p>
     <div class="banner-meta">
       <div><span class="k">Proyecto</span><span class="v">BlueTwins de OceanoTech Innova</span></div>
       <div><span class="k">Origen</span><span class="v">Universidad</span></div>
@@ -164,33 +171,18 @@
 </section>
 
 <main class="wrap">
-  
+  <div class="items">
 
-    <div class="items">
+    <article class="item" id="prototipo">
+      <span class="mono">&nbsp;</span>
+      <h2>Prototipo</h2>
+      <p>OceanoTech Innova cuenta actualmente con un <em>prototipo funcional</em> de su solución, desarrollado para demostrar cómo un centro de cultivo puede ser representado y analizado digitalmente.</p>
+      <p>El prototipo incorpora visualización de datos, modelamiento de variables y simulación de escenarios dentro de un entorno digital. Su desarrollo permite experimentar con diferentes condiciones y observar cómo responde el modelo ante cambios en las variables consideradas.</p>
+      <p>Actualmente, el sistema se encuentra en una etapa de <em>validación y evolución</em>. El objetivo no es presentar el prototipo como un producto industrial terminado, sino utilizarlo como base para validar sus capacidades con usuarios y acercarlo progresivamente a las condiciones reales de operación.</p>
+      <p>La siguiente etapa consiste en contrastar el comportamiento del modelo con información y necesidades reales de centros de cultivo, recoger la experiencia de operarios y tomadores de decisiones y avanzar hacia un piloto en la Región de Los Lagos.</p>
+      <p class="callout">Hoy tenemos el prototipo. El siguiente desafío es demostrar su valor en terreno.</p>
+    </article>
 
-      
-
-      <article class="item" id="problema">
-        <span class="mono"> </span>
-        <h2>¿Como funciona?</h2>
-        <p>El funcionamiento de nuestra plataforma está estructurado bajo un principio de integración simple, ágil y no invasiva:
-Conexión directa a los sensores del cliente: El software se conecta fácilmente a la red de sensores oceanográficos que la salmonera ya tiene instalada y operativa en sus jaulas (oxígeno disuelto, temperatura y corrientes), eliminando la necesidad de costosas modificaciones estructurales
-.
-Conversión en datos funcionales para la predicción: Los datos brutos transmitidos por los sensores son asimilados en tiempo real por el software
-. En lugar de acumularse en silos aislados o registros históricos pasivos, estos datos se convierten instantáneamente en parámetros de entrada para ecuaciones hidrodinámicas de transporte de oxígeno y modelos bioenergéticos de crecimiento de la población de peces
-.
-Simulaciones en tiempo real para decidir antes de actuar: Con esta información calibrada continuamente, BlueTwins simula escenarios virtuales ("what-if") para proyectar de qué manera variarán las condiciones locales en las próximas horas
-. Esto permite a los operarios saber con precisión cómo ejecutar las maniobras operativas críticas en el mar (como regular o suspender la alimentación, programar ayunos, o activar sistemas de oxigenación de manera preventiva) basándose en proyecciones matemáticas rigurosas y no en suposiciones
-.
-Nuestra Filosofía: Una Solución Predictiva, No un Software de Escritorio
-En OceanoTech Innova tenemos una visión comercial clara: no pretendemos vender una licencia de software estática, sino brindar una solución predictiva integrada que reduzca activamente la incertidumbre operacional en el mar
-.
-Los visualizadores tradicionales saturan al operario con gráficos históricos de lo que ya ocurrió
-. En cambio, nuestra propuesta de valor radica en entregar un servicio de soporte predictivo y prescriptivo automatizado
-, diseñado específicamente para evitar mortalidades masivas, optimizar el uso del alimento y robustecer la viabilidad económica y ambiental de la acuicultura en la Patagonia chilena.<p>[Espacio para agregar la cifra, caso o antecedente concreto que respalde este punto en la postulación.]</p>
-      </article>
-
-       </div>
   </div>
 </main>
 
@@ -209,20 +201,6 @@ Los visualizadores tradicionales saturan al operario con gráficos históricos d
     root.setAttribute('data-theme', isDark ? 'light' : 'dark');
     toggle.textContent = isDark ? 'Modo noche' : 'Modo día';
   });
-
-  const links = document.querySelectorAll('.toc a');
-  const sections = document.querySelectorAll('.item');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
-      if (!link) return;
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-15% 0px -70% 0px' });
-  sections.forEach(s => io.observe(s));
 </script>
 
 </body>

@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AquaTwins · OceanoTech — Índice de información</title>
+<title>BlueTwins · OceanoTech — Tecnología</title>
+<link rel="icon" type="image/png" href="assets/imagenes/favicon.png/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -106,11 +107,17 @@
   .item:first-child{padding-top:0;}
   .item .mono{display:block;margin-bottom:12px;}
   .item h2{font-size:22px;font-weight:500;letter-spacing:-0.01em;margin-bottom:14px;}
+  .item h3{font-size:15.5px;font-weight:600;letter-spacing:-0.005em;color:var(--ink);margin-top:22px;margin-bottom:6px;}
   .item p{font-size:15px;line-height:1.75;color:var(--ink-soft);max-width:62ch;}
   .item p + p{margin-top:12px;}
   .item p em{
     color:var(--ink);font-style:normal;
     background:linear-gradient(transparent 60%, var(--line-soft) 60%);
+  }
+  .item p.callout{
+    font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;
+    line-height:1.5;padding-left:16px;border-left:2px solid var(--accent);
+    margin-top:24px;
   }
 
   .note{
@@ -150,11 +157,11 @@
   </nav>
 </header>
 
-
 <section class="banner">
   <div class="banner-inner">
-    <span class="mono">Evidencia</span>
-    <h1>LTecnología avanzada para anticipar escenarios en salmonicultura..</p>
+    <span class="mono">BlueTwins · 06</span>
+    <h1>Un centro de cultivo dentro de un entorno digital.</h1>
+    <p>Las capas que dan forma al Gemelo Digital.</p>
     <div class="banner-meta">
       <div><span class="k">Proyecto</span><span class="v">BlueTwins de OceanoTech Innova</span></div>
       <div><span class="k">Origen</span><span class="v">Universidad</span></div>
@@ -162,31 +169,40 @@
     </div>
   </div>
 </section>
+
 <main class="wrap">
-  
+  <div class="items">
 
-    <div class="items">
+    <article class="item" id="tecnologia">
+      <span class="mono">&nbsp;</span>
+      <h2>Tecnología</h2>
+      <p>La tecnología de OceanoTech Innova combina distintas capas para construir la representación digital del centro de cultivo.</p>
 
-      
+      <h3>Datos ambientales y operacionales</h3>
+      <p>Integramos variables como oxígeno y temperatura provenientes de sensores y fuentes de información disponibles para el cultivo.</p>
 
-      <article class="item" id="problema">
-        <span class="mono"> </span>
-        <h2>El problema</h2>
-        <p>La operación salmonicultora genera grandes volúmenes de información sobre temperatura, oxígeno, biomasa, corrientes y comportamiento de los peces. Sin embargo, estos datos suelen analizarse de forma fragmentada, dificultando identificar relaciones entre las condiciones del entorno y cambios críticos en la producción.
+      <h3>Procesamiento de datos</h3>
+      <p>Los datos son procesados para convertir mediciones individuales en información utilizable por el modelo.</p>
 
-Esta desconexión reduce la capacidad de anticipar eventos como hipoxia, floraciones algales nocivas (FAN), estrés y mortalidad, haciendo que algunas decisiones operativas se tomen cuando el impacto ya comenzó.
+      <h3>Modelamiento</h3>
+      <p>Los modelos bioenergéticos permiten representar aspectos asociados al crecimiento y comportamiento de la biomasa bajo distintas condiciones.</p>
 
-En Aysén, eventos asociados a estas condiciones han provocado pérdidas oficiales de 4.994 toneladas de salmón, evidenciando el costo productivo de reaccionar frente al evento en lugar de anticiparlo.</p>
-        <p>[Espacio para agregar la cifra, caso o antecedente concreto que respalde este punto en la postulación.]</p>
-      </article>
+      <h3>Gemelo Digital</h3>
+      <p>La información se integra en una representación dinámica del centro de cultivo, permitiendo observar y analizar su comportamiento.</p>
 
-       </div>
+      <h3>Simulación de escenarios</h3>
+      <p>El sistema permite modificar determinadas condiciones y explorar escenarios hipotéticos para apoyar la evaluación de alternativas.</p>
+
+      <p style="margin-top:22px;">Además, la arquitectura contempla la integración de <em>fuentes oceanográficas públicas</em>, como CHONOS de IFOP, para complementar la información disponible del entorno.</p>
+      <p>La tecnología se encuentra en desarrollo y validación. Por ello, algunas capacidades forman parte del proceso evolutivo del prototipo y deberán ser contrastadas con datos y condiciones reales antes de considerarse validadas operacionalmente.</p>
+    </article>
+
   </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <span><b>Oceano</b>Tech — AquaTwins, Gemelo Digital para salmonicultura</span>
+    <span><b>Oceano</b>Tech — BlueTwins, Gemelo Digital para salmonicultura</span>
     <span class="mono">© 2026</span>
   </div>
 </footer>
@@ -199,20 +215,6 @@ En Aysén, eventos asociados a estas condiciones han provocado pérdidas oficial
     root.setAttribute('data-theme', isDark ? 'light' : 'dark');
     toggle.textContent = isDark ? 'Modo noche' : 'Modo día';
   });
-
-  const links = document.querySelectorAll('.toc a');
-  const sections = document.querySelectorAll('.item');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
-      if (!link) return;
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-15% 0px -70% 0px' });
-  sections.forEach(s => io.observe(s));
 </script>
 
 </body>
